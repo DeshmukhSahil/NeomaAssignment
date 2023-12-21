@@ -4,12 +4,6 @@ const router = express.Router();
 const auth = require('../middlewares/auth');
 const Task = require('../models/Task');
 
-router.get('/test', auth, (req, res) => {
-  res.json({
-    message: 'Task routes are working!',
-    user: req.user,
-  });
-});
 
 // CRUD tasks for authenticated users
 
@@ -32,12 +26,16 @@ router.post('/', auth, async (req, res) => {
 // Updated /tasks endpoint to include status filtering
 router.get('/', auth, async (req, res) => {
   try {
-    // Get status from query parameter (default to all tasks if not provided)
-    const status = req.query.status || 'all';
+    // Get status from query parameter (default to 'incomplete' if not provided)
+    const status = req.query.status || 'incomplete';
 
     // Define filter based on status
-    const statusFilter =
-      status === 'all' ? {} : { completed: status === 'completed' };
+    let statusFilter = {};
+    if (status === 'completed' || status === 'in-progress') {
+      statusFilter = { status };
+    } else if (status === 'incomplete') {
+      statusFilter = { completed: false };
+    }
 
     // Fetch tasks based on user ID and status filter
     const tasks = await Task.find({
