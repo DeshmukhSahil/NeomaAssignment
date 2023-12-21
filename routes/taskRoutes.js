@@ -29,24 +29,31 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// get user tasks
+// Updated /tasks endpoint to include status filtering
 router.get('/', auth, async (req, res) => {
   try {
+    // Get status from query parameter (default to all tasks if not provided)
+    const status = req.query.status || 'all';
+
+    // Define filter based on status
+    const statusFilter =
+      status === 'all' ? {} : { completed: status === 'completed' };
+
+    // Fetch tasks based on user ID and status filter
     const tasks = await Task.find({
       owner: req.user._id,
+      ...statusFilter,
     });
-    res
-      .status(200)
-      .json({
-        tasks,
-        count: tasks.length,
-        message: 'Tasks Fetched Successfully',
-      });
+
+    res.status(200).json({
+      tasks,
+      count: tasks.length,
+      message: 'Tasks Fetched Successfully',
+    });
   } catch (err) {
     res.status(500).send({ error: err });
   }
 });
-
 
 //fetch a task by id
 
