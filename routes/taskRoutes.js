@@ -27,7 +27,7 @@ router.post('/', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
   try {
     // Get status from query parameter (default to 'incomplete' if not provided)
-    const status = req.query.status || 'incomplete';
+    const status = req.query.status || 'all';
 
     // Define filter based on status
     let statusFilter = {};
