@@ -15,7 +15,7 @@ The **filter system** is also implemented as required to view the tasks by their
 - [Project Title](#task-management-api)
 - [Description](#description)
 - [Features](#features)
-- [Usage with Example](##usage-with-example)
+- [Usage with Example](#usage-with-example)
   - [Step 1 (User Registration)](#step-1-user-registration)
   - [Step 2 (User Login)](#step-2-user-login)
   - [Step 3 (Create a Task)](#step-3-create-a-task)
